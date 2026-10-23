@@ -143,13 +143,18 @@ final class SelectionButton {
         panel.backgroundColor = .clear
         panel.hasShadow = true
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-        panel.contentView = NSHostingView(rootView: BubbleView { [weak self] in
+        panel.contentView = FirstMouseHostingView(rootView: BubbleView { [weak self] in
             guard let self else { return }
             self.hide()
             self.onClick?(self.text)
         })
         return panel
     }
+}
+
+/// The bubble lives in a panel that never becomes key — let the very first click through.
+private final class FirstMouseHostingView<Content: View>: NSHostingView<Content> {
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 }
 
 private struct BubbleView: View {
