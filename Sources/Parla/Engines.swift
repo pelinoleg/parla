@@ -109,7 +109,7 @@ struct AppleEngine: Engine {
         AsyncThrowingStream { continuation in
             Task {
                 do {
-                    #if canImport(Translation)
+                    #if canImport(Translation) && compiler(>=6.2)
                     if #available(macOS 26.0, *), let source {
                         let session = TranslationSession(installedSource: source.localeLanguage, target: target.localeLanguage)
                         let response: TranslationSession.Response
